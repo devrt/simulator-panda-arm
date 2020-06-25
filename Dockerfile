@@ -7,7 +7,8 @@ SHELL ["/bin/bash", "-c"]
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
-    apt-get install -y supervisor ros-melodic-panda-moveit-config && \
+    apt-get install -y git python-pip ros-melodic-panda-moveit-config ros-melodic-rviz-visual-tools && \
+    pip install -U --no-cache-dir supervisor supervisor_twiddler && \
     apt-get clean
 
 RUN mkdir -p /workspace/src && \
@@ -17,4 +18,4 @@ ADD supervisord.conf /etc/supervisor/supervisord.conf
 
 VOLUME ["/opt/ros/melodic", "/workspace/src/moveit_tutorials"]
 
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/usr/local/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
